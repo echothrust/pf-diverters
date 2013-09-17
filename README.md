@@ -1,6 +1,6 @@
 # tripping-nemesis
 
-A collection of (OpenBSD) (PF)[http://www.openbsd.org/faq/pf/] (divert)[http://www.openbsd.org/cgi-bin/man.cgi?query=divert&sektion=4] socket daemons
+A collection of daemons written for (OpenBSD) [PF](http://www.openbsd.org/faq/pf/), that listen on [divert](http://www.openbsd.org/cgi-bin/man.cgi?query=divert&sektion=4) sockets.
 
 ```
 WARNING: THESE TOOLS ARE EXPERIMENTAL AND IN NO-WAY PRODUCTION READY.
@@ -15,7 +15,7 @@ List of diverters available:
 
 ## Building
 
-On an OpenBSD system, get the source ((http link))[https://github.com/echothrust/tripping-nemesis/archive/master.zip] and simply run make:
+On an OpenBSD system, get the source ([http link](https://github.com/echothrust/tripping-nemesis/archive/master.zip)) and simply run make:
 
 ```
 $ git clone https://github.com/echothrust/tripping-nemesis
@@ -44,6 +44,12 @@ Say you run `bofh-divert 1100 bastards`, you would also need the corresponding P
 table <bastards> persist counters
 block in log quick from <bastards>
 pass in log quick on { egress } inet proto tcp from !<bastards> to port { 22, 23, 81, 138, 139, 445, 1024, 3389, 5900, 6001, 8080, 8888 } divert-packet port 1100 no state
+```
+
+All daemon activity is appropriately logged through syslog, e.g.:
+
+```
+Sep 17 18:56:16 fw01 bofh-divert: attacker_ip:13477 -> your_ip:3389
 ```
 
 ### dnsbl-divert
