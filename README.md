@@ -4,7 +4,7 @@ tripping-nemesis
 A collection of (OpenBSD) PF divert socket daemons
 
 ```
-WARNING: THESE ARE TOOLS ARE EXPERIMENTAL AND IN NO-WAY PRODUCTION READY.
+WARNING: THESE TOOLS ARE EXPERIMENTAL AND IN NO-WAY PRODUCTION READY.
 
 Feel free to test and run them on your systems, but make sure you keep a close eye.
 ```
