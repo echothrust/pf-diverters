@@ -20,5 +20,5 @@ clean:
 	rm -rf stdpf.o daemon.o dnsbl-divert bofh-divert
 
 install: all
-	install -c bofh-divert /usr/local/sbin
-	install -c dnsbl-divert /usr/local/sbin
+	install -c -m 0700 -o root -g wheel bofh-divert /usr/local/sbin
+	install -c -m 0700 -o root -g wheel dnsbl-divert /usr/local/sbin
