@@ -84,10 +84,11 @@ All the diverters require the pre-existance of the pf table.
 There sure is room for improvement, but also many ideas on similar diverters to implement. Code contributions are always welcome:
 
 1. [Fork it](https://github.com/echothrust/tripping-nemesis/fork)
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Add code as you see fit (introduce new files with `git add my-new-feature.c`)
-4. Commit your changes (`git commit -am 'Add some feature'`)
-5. Push to the branch (`git push origin my-new-feature`)
-6. Create new Pull Request [![Info](https://help.github.com/assets/help/info-icon-ba11a61a3770bbc50703f444d80e915b.png "Creating a new Pull Request")](https://help.github.com/articles/creating-a-pull-request)
+2. Clone your forked project (`git clone https://github.com/YOUR-ACCOUNT/tripping-nemesis`)
+3. Create your feature branch (`git checkout -b my-new-feature`)
+4. Add code as you see fit (introduce new files with `git add my-new-feature.c`)
+5. Commit your changes (`git commit -am 'Add some feature'`)
+6. Push to the branch (`git push origin my-new-feature`)
+7. Create new Pull Request [![Info](https://help.github.com/assets/help/info-icon-ba11a61a3770bbc50703f444d80e915b.png "Creating a new Pull Request")](https://help.github.com/articles/creating-a-pull-request)
 
 
