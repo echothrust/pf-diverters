@@ -90,5 +90,3 @@ There sure is room for improvement, but also many ideas on similar diverters to 
 5. Commit your changes (`git commit -am 'Add some feature'`)
 6. Push to the branch (`git push origin my-new-feature`)
 7. Create new Pull Request [![Info](https://help.github.com/assets/help/info-icon-ba11a61a3770bbc50703f444d80e915b.png "Creating a new Pull Request")](https://help.github.com/articles/creating-a-pull-request)
-
-
