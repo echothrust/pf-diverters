@@ -18,3 +18,7 @@ stdpf.o: stdpf.c
 
 clean:
 	rm -rf stdpf.o daemon.o dnsbl-divert bofh-divert
+
+install: all
+	install -c bofh-divert /usr/local/sbin
+	install -c dnsbl-divert /usr/local/sbin
