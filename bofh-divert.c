@@ -87,7 +87,7 @@ int main(int argc, char *argv[]) {
 	syslog(LOG_INFO, "Daemon running");
 
 	memset(syslogLine,0x0,sizeof(syslogLine));
-	snprintf(syslogLine, sizeof syslogLine, "Using PF table <%s>", divertPort, pfTable);
+	snprintf(syslogLine, sizeof syslogLine, "Using PF table <%s>", pfTable);
 	syslog(LOG_INFO, syslogLine);
 
 	// create socket of type IPPROTO_DIVERT
