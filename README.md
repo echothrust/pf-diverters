@@ -1,6 +1,6 @@
 # tripping-nemesis
 
-A collection of daemons written for (OpenBSD) [PF](http://www.openbsd.org/faq/pf/), that listen on [divert](http://www.openbsd.org/cgi-bin/man.cgi?query=divert&sektion=4) sockets.
+A collection of daemons written for [OpenBSD](http://www.openbsd.org/) [PF](http://www.openbsd.org/faq/pf/), that listen on [divert](http://www.openbsd.org/cgi-bin/man.cgi?query=divert&sektion=4) sockets.
 
 ```
 WARNING: THESE TOOLS ARE EXPERIMENTAL AND IN NO-WAY PRODUCTION READY.
