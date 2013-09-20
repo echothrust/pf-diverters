@@ -2,6 +2,11 @@
 
 A collection of daemons written for [OpenBSD](http://www.openbsd.org/) [PF](http://www.openbsd.org/faq/pf/), that listen on [divert](http://www.openbsd.org/cgi-bin/man.cgi?query=divert&sektion=4) sockets.
 
+[PF](http://www.openbsd.org/faq/pf/) can be configured to send matching packets to a divert socket via the parameter `divert-packet port <port>`. [Divert sockets](http://www.openbsd.org/cgi-bin/man.cgi?query=divert&sektion=4) are bound to divert ports (completely separated from tcp/udp) and enable us to queue raw packets from the kernel stack to userspace applications and vice versa. 
+
+This synergy leaves plenty of space for innovation; matching packets from PF can be stopped from propagating through the IP stack, in order to be brought to our userspace daemons, and optionally be re-injected back into the kernel stack for normal processing. Certainly, the daemons can perform additional checks on intercepted connections and, based on those checks, immediately enforce firewall policy.
+
+
 ```
 WARNING: THESE TOOLS ARE EXPERIMENTAL AND IN NO-WAY PRODUCTION READY.
 
@@ -10,8 +15,8 @@ Feel free to test and run them on your systems, but make sure you keep a close e
 
 List of diverters available:
   
-  * `bofh-divert` Divert connections to this daemon and forever ban each src host. 
-  * `dnsbl-divert` Divert connections to this daemon and check if the source ip is on a dnsbl and drop, or redirect to the legit owner. (still work-in-progress)
+  * `bofh-divert` Divert connections to this daemon and add each src host to a predefined PF table (used for banning abusers). 
+  * `dnsbl-divert` Divert connections to this daemon and check if the source ip is on a dnsbl and drop packet, or else reinject packet to reach its original destination. (still work-in-progress)
 
 ## Building
 
@@ -25,7 +30,7 @@ $ make
 
 This will compile the binaries for the diverters. If you wish, you can manually copy the executables somewhere like `/usr/local/sbin`, but this is not a requirement.
 
-<sub>Note: if git is not available in your system, you can always download the code as a zip file ([http link](https://github.com/echothrust/tripping-nemesis/archive/master.zip)).</sub>
+<sub>Note: if git is not available on your system, you can always download the code as a zip file ([http link](https://github.com/echothrust/tripping-nemesis/archive/master.zip)).</sub>
 
 ## Running
 
