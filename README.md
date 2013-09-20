@@ -1,8 +1,8 @@
 # tripping-nemesis
 
-A collection of daemons written for [OpenBSD](http://www.openbsd.org/) [PF](http://www.openbsd.org/faq/pf/), that listen on [divert](http://www.openbsd.org/cgi-bin/man.cgi?query=divert&sektion=4) sockets.
+A collection of daemons written for [OpenBSD](http://www.openbsd.org/) [PF](http://www.openbsd.org/faq/pf/), that listen on [divert(4)](http://www.openbsd.org/cgi-bin/man.cgi?query=divert&sektion=4) sockets.
 
-[PF](http://www.openbsd.org/faq/pf/) can be configured to send matching packets to a divert socket via the parameter `divert-packet port <port>`. [Divert sockets](http://www.openbsd.org/cgi-bin/man.cgi?query=divert&sektion=4) are bound to divert ports (completely separated from tcp/udp) and enable us to queue raw packets from the kernel stack to userspace applications and vice versa. 
+PF can be configured to send matching packets to a divert socket via the parameter `divert-packet port <port>`. Divert sockets are bound to divert ports (completely separated from tcp/udp) and enable us to queue raw packets from the kernel stack to userspace applications and vice versa. 
 
 This synergy leaves plenty of space for innovation; matching packets from PF can be stopped from propagating through the IP stack, in order to be brought to our userspace daemons, and optionally be re-injected back into the kernel stack for normal processing. Certainly, the daemons can perform additional checks on intercepted connections and, based on those checks, immediately enforce firewall policy.
 
