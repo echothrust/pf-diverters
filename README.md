@@ -30,7 +30,7 @@ $ make
 
 This will compile the binaries for the diverters. If you wish, you can manually copy the executables somewhere like `/usr/local/sbin`, but this is not a requirement.
 
-<sub>Note: if git is not available on your system, you can always download the code as a zip file ([http link](https://github.com/echothrust/tripping-nemesis/archive/master.zip)).</sub>
+<sub>Note: if git(1) is not installed on your system, you can always download the code as a zip file ([http link](https://github.com/echothrust/tripping-nemesis/archive/master.zip)).</sub>
 
 ## Running
 
