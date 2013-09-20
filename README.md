@@ -1,4 +1,4 @@
-# tripping-nemesis
+# pf diverters
 
 A collection of daemons written for [OpenBSD](http://www.openbsd.org/) [PF](http://www.openbsd.org/faq/pf/), that listen on [divert(4)](http://www.openbsd.org/cgi-bin/man.cgi?query=divert&sektion=4) sockets.
 
