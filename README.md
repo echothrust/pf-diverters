@@ -23,14 +23,14 @@ List of diverters available:
 On an OpenBSD system, get the source and simply run make:
 
 ```
-$ git clone https://github.com/echothrust/tripping-nemesis
-$ cd tripping-nemesis
+$ git clone https://github.com/echothrust/pf-diverters
+$ cd pf-diverters
 $ make
 ```
 
 This will compile the binaries for the diverters. If you wish, you can manually copy the executables somewhere like `/usr/local/sbin`, but this is not a requirement.
 
-<sub>Note: if git(1) is not installed on your system, you can always download the code as a zip file ([http link](https://github.com/echothrust/tripping-nemesis/archive/master.zip)).</sub>
+<sub>Note: if git(1) is not installed on your system, you can always download the code as a zip file ([http link](https://github.com/echothrust/pf-diverters/archive/master.zip)).</sub>
 
 ## Running
 
@@ -88,8 +88,8 @@ All the diverters require the pre-existance of the pf table.
 
 There sure is room for improvement, but also many ideas on similar diverters to implement. Code contributions are always welcome:
 
-1. [Fork it](https://github.com/echothrust/tripping-nemesis/fork)
-2. Clone your forked project (`git clone https://github.com/YOUR-ACCOUNT/tripping-nemesis`)
+1. [Fork it](https://github.com/echothrust/pf-diverters/fork)
+2. Clone your forked project (`git clone https://github.com/YOUR-ACCOUNT/pf-diverters`)
 3. (Optional) Create your feature branch (`git checkout -b my-new-feature`)
 4. Add code as you see fit (introduce new files with `git add my-new-feature.c`)
 5. (Optional) Commit your changes (`git commit -am 'Add some feature'`)
