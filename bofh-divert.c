@@ -38,17 +38,19 @@
 #include <stdlib.h>
 #include <string.h>
 #include <syslog.h>
+#include <unistd.h> // for getopt
+#include <ctype.h> // for isdigit
 
 #include "stdpf.h"
 #include "daemon.h"
 
 #define DAEMON_NAME "bofh-divert"
 
-void usage()
-{
-	printf("usage: %s <divert_port> <pf_table_name>\n",DAEMON_NAME);
-	printf("\t<divert_port> divert port number to bind (1-65535)\n");
-	printf("\t<pf_table_name> table to add collected host IPs (up to %d chars)\n",PF_TABLE_NAME_SIZE);
+void usage() {
+	fprintf(stderr,"usage: %s -p pnum -t tname\n",DAEMON_NAME);
+	fprintf(stderr,"\tpnum   divert port number to bind (1-65535)\n");
+	fprintf(stderr,"\ttname  table to add collected host IPs (up to %d chars)\n",PF_TABLE_NAME_SIZE);
+	exit(EXIT_FAILURE);
 }
 
 int main(int argc, char *argv[]) {
@@ -61,16 +63,41 @@ int main(int argc, char *argv[]) {
 	char pidPath[64];
 	char syslogLine[256];
 
-	if (argc < 3 || argv[1] == NULL || argv[2] == NULL || strlen(argv[2])>=PF_TABLE_NAME_SIZE )
-	{
+	extern char *optarg;
+	int ch, cherr=0, pflag=0, tflag=0;
+	while ((ch = getopt(argc, argv, "p:t:")) != -1) {
+		switch (ch) {
+		case 'p':
+			pflag=1;
+			if (optarg != NULL && strspn(optarg,"0123456789")==strlen(optarg)) {
+				// divertPort=atoi(optarg);
+				divertPort=(int)strtol(optarg, (char **)NULL, 10);
+			} else {
+				cherr=1;
+			}
+			break;
+		case 't':
+			tflag=1;
+			if (optarg != NULL) {
+				if (strlcpy(pfTable, optarg, sizeof(pfTable)) >= sizeof(pfTable))
+				    	fprintf(stderr,"Table name truncated to PF_TABLE_NAME_SIZE: <%s>\n",pfTable);
+			} else {
+				cherr=1;
+			}
+			break;
+		default:
+			cherr=1;
+		}
+	}
+	if (pflag==0 || tflag==0) {
+		fprintf(stderr,"Error: Please specify port(-p) and table name(-t).\n");
 		usage();
-		exit(EXIT_FAILURE);
+	}
+	if (cherr!=0 || divertPort<1 || divertPort>65535) {
+		fprintf(stderr,"Error: Bad input, please revise program usage.\n");
+		usage();
 	}
 
-    if (strlcpy(pfTable, argv[2], sizeof(pfTable)) >= sizeof(pfTable))
-    	printf("Table truncated to <%s>",pfTable);
-
-    divertPort=(int)strtol(argv[1], (char **)NULL, 10);
 
 	/* Logging */
 	setlogmask(LOG_UPTO(LOG_INFO));
@@ -79,7 +106,7 @@ int main(int argc, char *argv[]) {
 	syslog(LOG_INFO, "Daemon starting up");
 
 	/* PID FILE */
-	snprintf(pidPath, sizeof pidPath, "%s%s%s", "/var/run/", DAEMON_NAME, ".pid");
+	snprintf(pidPath, sizeof pidPath, "%s%s%s", "/var/run/bofh-", pfTable, ".pid");
 
 	/* Deamonize */
 	daemonize("/tmp/", pidPath);

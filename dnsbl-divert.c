@@ -46,6 +46,9 @@
 #include <arpa/nameser.h>
 #include <resolv.h>
 #include <netdb.h>
+#include <unistd.h>
+#include <ctype.h>
+
 #include "stdpf.h"
 #include "daemon.h"
 
@@ -78,6 +81,15 @@ static char *revip_str(char *ip) {
 	return reversed_ip;
 }
 
+void usage() {
+	printf("usage: %s -p pnum -t tbl -c tch [dns]\n",DAEMON_NAME);
+	printf("\tpnum  divert port number to bind (1-65535)\n");
+	printf("\ttbl   table to populate with DNSBLed hosts (up to %d chars)\n",PF_TABLE_NAME_SIZE);
+	printf("\ttch   table to cache already-looked-up hosts (up to %d chars)\n",PF_TABLE_NAME_SIZE);
+	printf("\tdns   DNS server IPaddr (default: use system-configured dns)\n");
+	exit(EXIT_FAILURE);
+}
+
 int main(int argc, char *argv[]) {
 	int i, fd, s;
 	struct sockaddr_in sin;
@@ -86,23 +98,56 @@ int main(int argc, char *argv[]) {
 	unsigned long dns = 0l;
 	int sockfd;
 	int rv;
-	char *pf_table_black;
-	char *pf_table_cache;
+	char pf_table_black[PF_TABLE_NAME_SIZE];
+	char pf_table_cache[PF_TABLE_NAME_SIZE];
 	int divertPort=0;
 	char pidPath[64];
 	char syslogLine[256];
 
-	if (argc < 4 || argv[1] == NULL || argv[2] == NULL || argv[3] == NULL || strlen(argv[2])>=PF_TABLE_NAME_SIZE || strlen(argv[3])>=PF_TABLE_NAME_SIZE ) {
-		printf("usage: %s <divert_port> <pf_table_black> <pf_table_cache> [dns_ip]\n",argv[0]);
-		printf("  <divert_port>    divert port number to bind (1-65535)\n");
-		printf("  <pf_table_black> table to populate with DNSBLed hosts (up to %d chars)\n",PF_TABLE_NAME_SIZE);
-		printf("  <pf_table_cache> table to cache already-looked-up hosts (up to %d chars)\n",PF_TABLE_NAME_SIZE);
-		printf("  <dns_ip>         DNS server address (default: use system-configured dns)\n");
-		exit(EXIT_FAILURE);
+	extern char *optarg;
+	extern int optind;
+	int ch, cherr=0, pflag=0, tflag=0, cflag=0;
+	while ((ch = getopt(argc, argv, "p:t:c:")) != -1) {
+		switch (ch) {
+		case 'p':
+			pflag=1;
+			if (optarg != NULL && strspn(optarg,"0123456789")==strlen(optarg)) {
+				// divertPort=atoi(optarg);
+				divertPort=(int)strtol(optarg, (char **)NULL, 10);
+			} else {
+				cherr=1;
+			}
+			break;
+		case 't':
+			tflag=1;
+			if (optarg != NULL) {
+				if (strlcpy(pf_table_black, optarg, sizeof(pf_table_black)) >= sizeof(pf_table_black))
+				    	fprintf(stderr,"Table name truncated to PF_TABLE_NAME_SIZE: <%s>",pf_table_black);
+			} else {
+				cherr=1;
+			}
+			break;
+		case 'c':
+			cflag=1;
+			if (optarg != NULL) {
+				if (strlcpy(pf_table_cache, optarg, sizeof(pf_table_cache)) >= sizeof(pf_table_cache))
+						fprintf(stderr,"Table name truncated to PF_TABLE_NAME_SIZE: <%s>",pf_table_cache);
+			} else {
+				cherr=1;
+			}
+			break;
+		default:
+			usage();
+		}
 	}
-	pf_table_black=argv[2];
-	pf_table_cache=argv[3];
-	divertPort = strtol(argv[1],NULL,10);
+	if (pflag==0 || tflag==0 || cflag==0) {
+		fprintf(stderr,"Error: Please specify port(-p) and table names(-t and -c).\n");
+		usage();
+	}
+	if (cherr!=0 || divertPort<1 || divertPort>65535) {
+		fprintf(stderr,"Error: Bad input, please revise program usage.\n");
+		usage();
+	}
 
 	/* Logging */
 	setlogmask(LOG_UPTO(LOG_INFO));
@@ -111,7 +156,7 @@ int main(int argc, char *argv[]) {
 	syslog(LOG_INFO, "Daemon starting up");
 
 	/* PID FILE */
-	snprintf(pidPath, sizeof pidPath, "%s%s%s", "/var/run/", DAEMON_NAME, ".pid");
+	snprintf(pidPath, sizeof pidPath, "%s%s%s", "/var/run/dnsbl-", pf_table_black, ".pid");
 
 	/* Deamonize */
 	daemonize("/tmp/", pidPath);
@@ -126,10 +171,10 @@ int main(int argc, char *argv[]) {
 	memset(&_res, 0x0, sizeof(_res));
 	res_init();
 
-	if (argv[4] != NULL && (dns = inet_addr(argv[4])) != -1) {
-		//printf("Using [%s] as dns server\n", argv[4]);
+	if (optind!=argc && argv[optind] != NULL && (dns = inet_addr(argv[optind])) != -1) {
+		//printf("Using [%s] as dns server\n", argv[optind]);
 		memset(syslogLine,0x0,sizeof(syslogLine));
-		snprintf(syslogLine, sizeof syslogLine, "Using [%s] as dns server", argv[4]);
+		snprintf(syslogLine, sizeof syslogLine, "Using [%s] as dns server", argv[optind]);
 		syslog(LOG_INFO, syslogLine);
 		_res.nsaddr.sin_addr.s_addr = dns;
 		_res.nscount = 1;
