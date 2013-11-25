@@ -22,15 +22,15 @@ List of diverters available:
 
 On an OpenBSD system, get the source and simply run make:
 
+<sub>Note: if git(1) is not installed on your system, you can always download the code as a zip file ([http link](https://github.com/echothrust/pf-diverters/archive/master.zip)).</sub>
+
 ```
 $ git clone https://github.com/echothrust/pf-diverters
 $ cd pf-diverters
 $ make
 ```
 
-This will compile the binaries for the diverters. If you wish, you can also run `make install` to plcae the executables in `/usr/local/sbin` and the rc scripts in /etc/rc.d.
-
-<sub>Note: if git(1) is not installed on your system, you can always download the code as a zip file ([http link](https://github.com/echothrust/pf-diverters/archive/master.zip)).</sub>
+This will compile the binaries for the diverters. If you wish, you can also run `make install` to place the executables in `/usr/local/sbin` and the rc scripts in /etc/rc.d.
 
 ## Running
 
