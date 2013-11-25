@@ -22,7 +22,7 @@ List of diverters available:
 
 On an OpenBSD system, get the source and simply run make:
 
-<sub>Note: if git(1) is not installed on your system, you can always download the code as a zip file ([http link](https://github.com/echothrust/pf-diverters/archive/master.tar.gz)).</sub>
+<sub>Note: if git(1) is not installed on your system, you can always download the code as a tar.gz archive ([http link](https://github.com/echothrust/pf-diverters/archive/master.tar.gz)).</sub>
 
 ```
 $ git clone https://github.com/echothrust/pf-diverters
