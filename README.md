@@ -28,7 +28,7 @@ $ cd pf-diverters
 $ make
 ```
 
-This will compile the binaries for the diverters. If you wish, you can manually copy the executables somewhere like `/usr/local/sbin`, but this is not a requirement.
+This will compile the binaries for the diverters. If you wish, you can also run `make install` to plcae the executables in `/usr/local/sbin` and the rc scripts in /etc/rc.d.
 
 <sub>Note: if git(1) is not installed on your system, you can always download the code as a zip file ([http link](https://github.com/echothrust/pf-diverters/archive/master.zip)).</sub>
 
@@ -73,6 +73,17 @@ usage: dnsbl-divert <divert_port> <pf_table_black> <pf_table_cache> [dns_ip]
 ```
 
 This is BETA/untested software that can take numerous improvements. Usage is very similar to bofh-divert, but this is destined for application in front of listening ports. For up-to-date running instructions, PF config and also for setting your prefered DNSBLs, please take a look in the source code.
+
+### rc.scripts
+
+Run controlscripts can be used to start diverters on system boot, for example:
+
+```
+ln -s /etc/rc.d/rc.bofh /etc/rc.d/bofh_bastards
+echo 'bofh_bastards_flags="1100 bastards"' >> /etc/rc.conf.local
+```
+
+This will configure the system to start `bofh-divert` daemon on boot, listening on divert_port '1100' and logging offenders in PF table 'bastards'. Of course, PF should be configured to create the table 'bastards' and forward offending connections to divert_port 1100.
 
 ## Notes
   
