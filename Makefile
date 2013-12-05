@@ -29,7 +29,7 @@ install-bofh:
 	install -Ss -o root -g wheel -m 750 bofh-divert $(BINDIR)/bofh-divert
 	install -o root -g wheel -m 750 rc.bofh /etc/rc.d/rc.bofh
 
-install-dnsnl:
+install-dnsbl:
 	install -Ss -o root -g wheel -m 750 dnsbl-divert $(BINDIR)/dnsbl-divert
 	install -o root -g wheel -m 750 rc.dnsbl /etc/rc.d/rc.dnsbl
 
