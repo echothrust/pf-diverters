@@ -86,9 +86,8 @@ main (int argc, char *argv[])
 		}
 
 		if (n > 55 
-				&& (packet[52] == 0x18
-					&& (packet[53] == 0x03 || packet[53] == 0x02
-						|| packet[53] == 0x01)))
+				&& (packet[52] == 0x18 && packet[53] == 0x03) 
+				&& (packet[54] == 0x1 || packet[54] == 0x02 || packet[54]==0x03))
 		{
 			printf ("heartbleed from -> %s\n", srcip);
 			printf ("%s:%u -> %s:%u\n",
