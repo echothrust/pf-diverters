@@ -25,21 +25,26 @@
  - support merge lists without whitelisted entries....
 
  */
+#include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/ioctl.h>
+#include <netinet/in.h>
+#include <netinet/ip.h>
+#include <netinet/tcp.h>
+#include <netinet/in_systm.h>
+#include <netinet/ip_var.h>
 #include <net/if.h>
 #include <net/pfvar.h>
-#include <netinet/in_systm.h>
-#include <netinet/ip.h>
-#include <netinet/ip_var.h>
-#include <netinet/tcp.h>
 #include <netinet/tcpip.h>
 #include <arpa/inet.h>
-#include <stdio.h>
 #include <stdlib.h>
+#include <fcntl.h>
+#include <stdio.h>
 #include <string.h>
 #include <syslog.h>
 #include <unistd.h> // for getopt
 #include <ctype.h> // for isdigit
+#include <err.h>
 
 #include "stdpf.h"
 #include "daemon.h"

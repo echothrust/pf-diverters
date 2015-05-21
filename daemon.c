@@ -3,22 +3,6 @@
  * http://www.4pmp.com/2009/12/a-simple-daemon-in-c/
  * with a few adjustments to better fit our needs.
  */
-/* #include <sys/ioctl.h>
- #include <sys/socket.h>
- #include <sys/queue.h>
- #include <sys/types.h>
- #include <sys/socket.h>
- #include <net/if.h>
- #include <net/pfvar.h>
- #include <netinet/in.h>
- #include <netinet/in_systm.h>
- #include <netinet/ip.h>
- #include <netinet/ip_var.h>
- #include <netinet/tcp.h>
- #include <netinet/tcpip.h>
- #include <arpa/inet.h>
- #include <err.h>
-*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -27,6 +11,9 @@
 #include <signal.h>
 #include <errno.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+
 
 #include "daemon.h"
 
@@ -105,6 +92,7 @@ void daemonize(char *rundir, char *pidfile) {
 
 	if (pid < 0) {
 		/* Could not fork */
+		printf("Could not fork() child process");
 		exit(EXIT_FAILURE);
 	}
 
@@ -122,6 +110,7 @@ void daemonize(char *rundir, char *pidfile) {
 	sid = setsid();
 
 	if (sid < 0) {
+		printf("Could not create session for new process group.");
 		exit(EXIT_FAILURE);
 	}
 
