@@ -2,7 +2,7 @@
 #
 # $OpenBSD: rc.template,v 1.5 2011/03/10 13:46:59 ajacoutot Exp $
 
-daemon="/usr/local/sbin/bofh-divert"
+daemon="/usr/local/sbin/dnsbl-divert"
 #daemon_flags=""
 #daemon_user="root"
 
