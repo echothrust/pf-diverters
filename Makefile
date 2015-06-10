@@ -27,11 +27,11 @@ stdpf.o: stdpf.c
 
 install-bofh:
 	install -Ss -o root -g wheel -m 750 bofh-divert $(BINDIR)/bofh-divert
-	install -o root -g wheel -m 750 rc.bofh /etc/rc.d/rc.bofh
+	install -o root -g wheel -m 750 rc.bofh /etc/rc.d/bofh_divert
 
 install-dnsbl:
 	install -Ss -o root -g wheel -m 750 dnsbl-divert $(BINDIR)/dnsbl-divert
-	install -o root -g wheel -m 750 rc.dnsbl /etc/rc.d/rc.dnsbl
+	install -o root -g wheel -m 750 rc.dnsbl /etc/rc.d/dnsbl_divert
 
 uninstall-bofh:
 	rm $(BINDIR)/bofh-divert /etc/rc.d/rc.bofh
