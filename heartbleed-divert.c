@@ -25,10 +25,11 @@
 #include <netinet/tcp.h>
 #include <netinet/tcpip.h>
 #include <arpa/inet.h>
+
+#include <err.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <err.h>
 
 #define DIVERT_PORT 700
 #define DAEMON_NAME "heartbleed-divert"
