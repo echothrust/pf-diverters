@@ -33,26 +33,28 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
+#include <net/if.h>
+#include <net/pfvar.h>
 #include <netinet/in.h>
 #include <netinet/ip.h>
 #include <netinet/tcp.h>
 #include <netinet/in_systm.h>
 #include <netinet/ip_var.h>
 #include <netinet/tcpip.h>
-#include <net/if.h>
-#include <net/pfvar.h>
 #include <arpa/inet.h>
 #include <arpa/nameser.h>
+
+#include <ctype.h> // for isdigit
+#include <err.h>
+#include <fcntl.h>
+#include <netdb.h>
+#include <resolv.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <fcntl.h>
 #include <syslog.h>
 #include <unistd.h> // for getopt
-#include <ctype.h> // for isdigit
-#include <err.h>
-#include <resolv.h>
-#include <netdb.h>
+
 #include "stdpf.h"
 #include "daemon.h"
 
