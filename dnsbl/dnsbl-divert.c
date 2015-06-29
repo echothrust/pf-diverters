@@ -33,26 +33,28 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
+#include <net/if.h>
+#include <net/pfvar.h>
 #include <netinet/in.h>
 #include <netinet/ip.h>
 #include <netinet/tcp.h>
 #include <netinet/in_systm.h>
 #include <netinet/ip_var.h>
 #include <netinet/tcpip.h>
-#include <net/if.h>
-#include <net/pfvar.h>
 #include <arpa/inet.h>
 #include <arpa/nameser.h>
+
+#include <ctype.h> // for isdigit
+#include <err.h>
+#include <fcntl.h>
+#include <netdb.h>
+#include <resolv.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <fcntl.h>
 #include <syslog.h>
 #include <unistd.h> // for getopt
-#include <ctype.h> // for isdigit
-#include <err.h>
-#include <resolv.h>
-#include <netdb.h>
+
 #include "stdpf.h"
 #include "daemon.h"
 
@@ -86,7 +88,8 @@ static char *revip_str(char *ip) {
 }
 
 void usage() {
-	printf("usage: %s -p pnum -t tbl -c tch [dns]\n",DAEMON_NAME);
+	extern char *__progname;
+	printf("usage: %s -p pnum -t tbl -c tch [dns]\n",__progname);
 	printf("\tpnum  divert port number to bind (1-65535)\n");
 	printf("\ttbl   table to populate with DNSBLed hosts (up to %d chars)\n",PF_TABLE_NAME_SIZE);
 	printf("\ttch   table to cache already-looked-up hosts (up to %d chars)\n",PF_TABLE_NAME_SIZE);
@@ -108,9 +111,11 @@ int main(int argc, char *argv[]) {
 	char pidPath[64];
 	char syslogLine[256];
 
+	extern char *__progname;
 	extern char *optarg;
 	extern int optind;
 	int ch, cherr=0, pflag=0, tflag=0, cflag=0;
+
 	while ((ch = getopt(argc, argv, "p:t:c:")) != -1) {
 		switch (ch) {
 		case 'p':
@@ -155,7 +160,7 @@ int main(int argc, char *argv[]) {
 
 	/* Logging */
 	setlogmask(LOG_UPTO(LOG_INFO));
-	openlog(DAEMON_NAME, LOG_CONS | LOG_PERROR, LOG_USER);
+	openlog(__progname, LOG_CONS | LOG_PERROR, LOG_USER);
 
 	syslog(LOG_INFO, "Daemon starting up");
 

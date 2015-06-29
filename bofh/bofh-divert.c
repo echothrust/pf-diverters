@@ -52,7 +52,8 @@
 #define DAEMON_NAME "bofh-divert"
 
 void usage() {
-	fprintf(stderr,"usage: %s -p pnum -t tname\n",DAEMON_NAME);
+	extern char *__progname;
+	fprintf(stderr,"usage: %s -p pnum -t tname\n",__progname);
 	fprintf(stderr,"\tpnum   divert port number to bind (1-65535)\n");
 	fprintf(stderr,"\ttname  table to add collected host IPs (up to %d chars)\n",PF_TABLE_NAME_SIZE);
 	exit(EXIT_FAILURE);
