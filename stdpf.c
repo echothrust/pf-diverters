@@ -1,20 +1,21 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
+#include <net/if.h>
+#include <net/pfvar.h>
 #include <netinet/in.h>
 #include <netinet/ip.h>
 #include <netinet/tcp.h>
 #include <netinet/in_systm.h>
 #include <netinet/ip_var.h>
-#include <net/if.h>
-#include <net/pfvar.h>
 #include <arpa/inet.h>
-#include <stdlib.h>
+
+#include <err.h>
 #include <fcntl.h>
 #include <stdio.h>
-#include <unistd.h>
+#include <stdlib.h>
 #include <string.h>
-#include <err.h>
+#include <unistd.h>
 
 
 #include "stdpf.h"
