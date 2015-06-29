@@ -10,7 +10,7 @@
         if (mask <  8) b[0] &= (0xFF << ( 8 - mask)); \
 }
 
-void add(char *tname, struct in_addr *ip, uint8_t mask);
+void add(char *, struct in_addr *, uint8_t);
 void ets_pf_open();
 void ets_pf_close();
 #endif
