@@ -1,40 +1,8 @@
-# Build the diverters dont write this with eclipse :P
-# SAMPLE needs work
-#
+# taken from pfstatd
+SUBDIR=		bofh
+SUBDIR+=	dnsbl
+#SUBDIR+=	heartbleed
+CFLAGS+=	-Wall
+CFLAGS+=	-I${.CURDIR}
 
-BINDIR = /usr/local/sbin
-
-all: bofh-divert dnsbl-divert
-
-install: install-bofh install-dnsbl
-
-uninstall: uninstall-bofh uninstall-dnsbl
-
-clean:
-	rm -rf stdpf.o daemon.o dnsbl-divert bofh-divert
-
-bofh-divert: bofh-divert.c daemon.o stdpf.o
-	gcc -o bofh-divert bofh-divert.c daemon.o stdpf.o
-
-dnsbl-divert: dnsbl-divert.c daemon.o stdpf.o
-	gcc -o dnsbl-divert dnsbl-divert.c daemon.o stdpf.o
-
-daemon.o: daemon.c
-	gcc -c daemon.c 
-
-stdpf.o: stdpf.c
-	gcc -c stdpf.c 
-
-install-bofh:
-	install -Ss -o root -g wheel -m 750 bofh-divert $(BINDIR)/bofh-divert
-	install -o root -g wheel -m 750 rc.bofh /etc/rc.d/bofh_divert
-
-install-dnsbl:
-	install -Ss -o root -g wheel -m 750 dnsbl-divert $(BINDIR)/dnsbl-divert
-	install -o root -g wheel -m 750 rc.dnsbl /etc/rc.d/dnsbl_divert
-
-uninstall-bofh:
-	rm $(BINDIR)/bofh-divert /etc/rc.d/rc.bofh
-
-uninstall-dnsbl:
-	rm $(BINDIR)/dnsbl-divert /etc/rc.d/rc.dnsbl
+.include <bsd.prog.mk>
