@@ -60,9 +60,8 @@ void usage() {
 }
 
 int main(int argc, char *argv[]) {
-	int fd, s,n;
+	int fd, s;
 	struct sockaddr_in sin;
-	struct in_addr *pfip;
 	socklen_t sin_len;
 	char pfTable[PF_TABLE_NAME_SIZE];
 	int divertPort=0;

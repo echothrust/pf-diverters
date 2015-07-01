@@ -33,8 +33,8 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
+
 #include <net/if.h>
-#include <net/pfvar.h>
 #include <netinet/in.h>
 #include <netinet/ip.h>
 #include <netinet/tcp.h>
@@ -43,6 +43,7 @@
 #include <netinet/tcpip.h>
 #include <arpa/inet.h>
 #include <arpa/nameser.h>
+#include <net/pfvar.h>
 
 #include <ctype.h> // for isdigit
 #include <err.h>
@@ -103,8 +104,7 @@ int main(int argc, char *argv[]) {
 	struct hostent *hp = NULL;
 	socklen_t sin_len;
 	unsigned long dns = 0l;
-	int sockfd;
-	int rv;
+
 	char pf_table_black[PF_TABLE_NAME_SIZE];
 	char pf_table_cache[PF_TABLE_NAME_SIZE];
 	int divertPort=0;
